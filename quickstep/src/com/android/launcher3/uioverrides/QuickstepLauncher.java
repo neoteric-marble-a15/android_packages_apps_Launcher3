@@ -45,6 +45,7 @@ import static com.android.launcher3.model.data.ItemInfo.NO_MATCHING_ID;
 import static com.android.launcher3.popup.QuickstepSystemShortcut.getSplitSelectShortcutByPosition;
 import static com.android.launcher3.popup.SystemShortcut.APP_INFO;
 import static com.android.launcher3.popup.SystemShortcut.DONT_SUGGEST_APP;
+import static com.android.launcher3.popup.SystemShortcut.FREE_FORM;
 import static com.android.launcher3.popup.SystemShortcut.INSTALL;
 import static com.android.launcher3.popup.SystemShortcut.PAUSE_APPS;
 import static com.android.launcher3.popup.SystemShortcut.PRIVATE_PROFILE_INSTALL;
@@ -86,8 +87,7 @@ import android.os.IBinder;
 import android.os.IRemoteCallback;
 import android.os.SystemProperties;
 import android.os.Trace;
-import android.os.UserHandle;
-import android.text.TextUtils;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.HapticFeedbackConstants;
@@ -458,6 +458,11 @@ public class QuickstepLauncher extends Launcher implements RecentsViewContainer 
                 APP_INFO, WellbeingModel.SHORTCUT_FACTORY, mHotseatPredictionController));
         shortcuts.addAll(getSplitShortcuts());
         shortcuts.add(UNINSTALL);
+        if (Settings.Global.getInt(asContext().getContentResolver(),
+                Settings.Global.DEVELOPMENT_ENABLE_FREEFORM_WINDOWS_SUPPORT, 0) != 0
+                && !enableDesktopWindowingMode()) {
+            shortcuts.add(FREE_FORM);
+        }
         shortcuts.add(PAUSE_APPS);
         shortcuts.add(WIDGETS);
         shortcuts.add(INSTALL);
