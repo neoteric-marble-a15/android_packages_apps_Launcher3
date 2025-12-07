@@ -111,6 +111,8 @@ public class TaskbarManager implements OnSharedPreferenceChangeListener {
 
     private static final Uri NAV_BAR_KIDS_MODE = Settings.Secure.getUriFor(
             Settings.Secure.NAV_BAR_KIDS_MODE);
+    private static final Uri NAVBAR_IME_SPACE_URI = Settings.Secure.getUriFor(
+            "navbar_ime_space");            
 
     private final Context mContext;
     private final @Nullable Context mNavigationBarPanelContext;
@@ -306,6 +308,8 @@ public class TaskbarManager implements OnSharedPreferenceChangeListener {
                 .register(USER_SETUP_COMPLETE_URI, mOnSettingsChangeListener);
         SettingsCache.INSTANCE.get(mContext)
                 .register(NAV_BAR_KIDS_MODE, mOnSettingsChangeListener);
+        SettingsCache.INSTANCE.get(mContext)
+                .register(NAVBAR_IME_SPACE_URI, mOnSettingsChangeListener);                
         mEnableTaskBarListener = c -> {
             // Create the illusion of this taking effect immediately
             // Also needed because TaskbarManager inits before SystemUiProxy on start
@@ -623,6 +627,8 @@ public class TaskbarManager implements OnSharedPreferenceChangeListener {
                 .unregister(USER_SETUP_COMPLETE_URI, mOnSettingsChangeListener);
         SettingsCache.INSTANCE.get(mContext)
                 .unregister(NAV_BAR_KIDS_MODE, mOnSettingsChangeListener);
+        SettingsCache.INSTANCE.get(mContext)
+                .unregister(NAVBAR_IME_SPACE_URI, mOnSettingsChangeListener);        
         Log.d(TASKBAR_NOT_DESTROYED_TAG, "unregistering component callbacks from destroy().");
         mContext.unregisterComponentCallbacks(mComponentCallbacks);
         mContext.unregisterReceiver(mShutdownReceiver);
